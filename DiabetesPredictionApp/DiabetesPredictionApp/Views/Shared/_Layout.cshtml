@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Brindamos servicios de transporte a proveedores de productos.">
+    <meta name="author" content="Coderthemes">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <link rel="shortcut icon" href="@Url.Content("~/Content/assets/images/favicon.ico")">
+
+    <title>DiabetesPredictionApp | @ViewBag.Title</title>
+
+
+    <!-- Plugins -->
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/plugins/sweet-alert2/sweetalert2.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/plugins/select2/css/select2.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/plugins/bootstrap-select/css/bootstrap-select.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css")" />
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/bootstrap.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/icons.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/style.css")" type="text/css" />
+
+    <style>
+        a {
+            cursor: pointer;
+        }
+    </style>
+
+    <script src="@Url.Content("~/Content/assets/js/modernizr.min.js")"></script>
+
+    @RenderSection("Styles", false)
+</head>
+
+<body class="fixed-left">
+
+    <!-- Begin page -->
+    <div id="wrapper">
+        <!-- Top Bar Start -->
+        <div class="topbar">
+            <div class="progress progress-sm">
+                <div id="pageLoad" class="progress-bar progress-bar-primary" data-percentage="100" style="width: 0%; ">
+                </div>
+            </div>
+            <div style="margin-top: -18px;">
+                <!-- LOGO -->
+                <div class="topbar-left topbar-left-sm">
+                    <div class="text-center">
+                        <a href="@Url.Action("Dashboard", "Home")" class="logo"><i class="fa fa-industry icon-c-logo"></i><span> Prediction</span></a>
+                        <!-- Image Logo here -->
+                        @*<a href="@Url.Action("Dashboard", "Home")" class="logo">
+                            <i class="icon-c-logo"> <i class="fa fa-industry"></i> </i>
+                        </a>*@
+                    </div>
+                </div>
+
+                <!-- Button mobile view to collapse sidebar menu -->
+                <nav class="navbar-custom">
+
+                    <ul class="list-inline float-right mb-0">
+                        <li class="list-inline-item">Administrator</li>
+
+                        <li class="list-inline-item notification-list">
+                            <a class="nav-link waves-light waves-effect" href="#" id="btn-fullscreen">
+                                <i class="dripicons-expand noti-icon"></i>
+                            </a>
+                        </li>
+
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
+                               aria-haspopup="false" aria-expanded="false">
+                                <img src="@Url.Content("~/Content/assets/images/no-image.png")" alt="user" class="rounded-circle" />
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="list-inline menu-left mb-0">
+                        <li class="float-left">
+                            <button class="button-menu-mobile open-left waves-light waves-effect">
+                                <i class="dripicons-menu"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- Top Bar End -->
+        <!-- ========== Left Sidebar Start ========== -->
+
+        <div class="left side-menu side-menu-sm">
+            <div class="sidebar-inner slimscrollleft">
+                <!--- Divider -->
+                <div id="sidebar-menu">
+
+                    @{Html.RenderPartial("_Sidebar");}
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="content-page">
+            <!-- Start content -->
+            <div class="content">
+                <div class="container-fluid">
+                    @MessageHelpers.ShowMessages(TempData)
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <h4 class="page-title"><i class="md md-@ViewBag.PageIcon"></i> @ViewBag.Title</h4>
+
+                            @if (IsSectionDefined("Breadcrumbs"))
+                            {
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Dashboard", "Home")"><i class="md md-dashboard"></i> Inicio</a></li>
+                                    @RenderSection("Breadcrumbs", false)
+                                    <li class="breadcrumb-item active"><strong>@ViewBag.Title</strong></li>
+                                </ol>
+                            }
+                        </div>
+                        @RenderBody()
+                    </div>
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <footer class="footer text-right">
+                @DateTime.Now.Year
+            </footer>
+
+        </div>
+
+
+        <!-- ============================================================== -->
+        <!-- End Right content here -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- END wrapper -->
+
+
+
+    <script>
+        var resizefunc = [];
+    </script>
+
+    <!-- jQuery  -->
+    <script src="@Url.Content("~/Content/assets/js/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/popper.min.js")"></script><!-- Popper for Bootstrap -->
+    <script src="@Url.Content("~/Content/assets/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/detect.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/fastclick.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/jquery.slimscroll.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/jquery.blockUI.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/waves.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/wow.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/jquery.nicescroll.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/jquery.scrollTo.min.js")"></script>
+
+    <!-- Plugings -->
+    <script src="@Url.Content("~/Content/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/parsleyjs/parsley.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/select2/js/select2.full.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/bootstrap-select/js/bootstrap-select.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/sweet-alert2/sweetalert2.min.js")"></script>
+
+    <!-- Chart JS -->
+    <script src="@Url.Content("~/Content/plugins/chart.js/Chart.bundle.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/chart.js/Chart.PieceLabel.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/chart.js/Chart.TextPlug.js")"></script>
+
+    <script src="@Url.Content("~/Content/assets/js/jquery.core.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/jquery.app.js")"></script>
+
+    @RazorHelpers.Script("jquery.unobtrusive-ajax.min.js", Url)
+    @RazorHelpers.Script("jquery.validate.min.js", Url)
+    @RazorHelpers.Script("pages/shared/global.js", Url)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('form').parsley();
+
+            var me = $('#pageLoad');
+            var perc = me.attr("data-percentage");
+            var currentPerc = 0;
+
+            var progress = setInterval(function () {
+                if (currentPerc >= perc) {
+                    clearInterval(progress);
+                } else {
+                    currentPerc += 1;
+                    me.css('width', (currentPerc) + '%');
+                }
+            }, 25);
+
+            $('.select2').select2({
+                placeholder: "[ - Seleccione - ]"
+            });
+        });
+    </script>
+
+
+    @RenderSection("Scripts", false)
+    @Html.Raw(TempData["AlertNotification"])
+    @{ TempData["AlertNotification"] = string.Empty; }
+
+    <!-- General section box modal start -->
+
+    <div class="invisible" id="default-modal-loading">
+        <div class="modal-body">
+            <h3>
+                <i class="fa fa-cog fa-spin fa-1x fa-fw"></i> Cargando...
+            </h3>
+        </div>
+    </div>
+    <div class="invisible" id="default-modal-loading-error">
+        <div class="modal-body">
+            <h3>
+                <i class="fa fa-exclamation-triangle"></i> Ha ocurrido un error
+            </h3>
+        </div>
+    </div>
+
+    <div class="" id="default-modal-container">
+
+    </div>
+    <!-- modal end -->
+
+</body>
+
+</html>

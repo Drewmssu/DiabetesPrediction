@@ -1,0 +1,130 @@
+﻿@model DiabetesPredictionApp.ViewModels.Entry.AddEditRegistroViewModel
+@{
+    ViewBag.Title = (Model.SubjectId.HasValue ? "Edit" : "New") + " Registry";
+    ViewBag.PageIcon = "person-add";
+}
+
+@section BreadCrumbs{ <li class="breadcrumb-item"><a href="@Url.Action("ListRegistros", "Entry")"> Records</a></li> }
+
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card-box">
+                <h4 class="header-title">Data</h4>
+                <form method="post">
+                    <hr />
+                    @Html.HiddenFor(x => x.SubjectId)
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.Name)</strong>
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", type = "text" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.LastName)</strong>
+                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", type = "text" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.Age)</strong>
+                            @Html.TextBoxFor(x => x.Age, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.TimesPregnant)</strong>
+                            @Html.TextBoxFor(x => x.TimesPregnant, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.PlasmaGlucose)</strong>
+                            @Html.TextBoxFor(x => x.PlasmaGlucose, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.TricepsSFT)</strong>
+                            @Html.TextBoxFor(x => x.TricepsSFT, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.SerumInsuline2Hour)</strong>
+                            @Html.TextBoxFor(x => x.SerumInsuline2Hour, new { @class = "form-control " })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.BodyMassIndex)</strong>
+                            @Html.TextBoxFor(x => x.BodyMassIndex, new { @class = "form-control " })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.DiabetesPedigreeFunction)</strong>
+                            @Html.TextBoxFor(x => x.DiabetesPedigreeFunction, new { @class = "form-control " })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.DistolicBlood)</strong>
+                            @Html.TextBoxFor(x => x.DistolicBlood, new { @class = "form-control " })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <strong>@Html.LabelFor(x => x.ProbabilityOfDiabetes)</strong>
+                            @Html.TextBoxFor(x => x.ProbabilityOfDiabetes, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                        <a class="btn btn-secondary waves-effect waves-light" href="@Url.Action("ListRegistros", "Entry")">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card-box">
+                <h4 class="header-title">Diabetes Probability</h4>
+                <hr />
+                <div class="form-group">
+                    <strong><label>Value (%)</label></strong>
+                    <input id="calculate-textbox" class="form-control" readonly />
+                </div>
+                <a id="calculate" class="btn btn-icon waves-effect btn-primary waves-light">Calculate</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $('#calculate').on('click', function () {
+            $.ajax({
+                method: 'POST',
+                url: '@Url.Action("Consume", "Entry")',
+                data: {
+                    timesPregnant: $('#TimesPregnant').val(),
+                    plasma: $('#PlasmaGlucose').val(),
+                    bloodPressure: $('#DistolicBlood').val(),
+                    tricepsThickness: $('#TricepsSFT').val(),
+                    serum: $('#SerumInsuline2Hour').val(),
+                    bodyMassIndex: $('#BodyMassIndex').val(),
+                    diabetesPedigree: $('#DiabetesPedigreeFunction').val(),
+                    age: $('#Age').val()
+                }
+            }).done(function (prob) {
+                swal({
+                    title: "Success!",
+                    text: 'Calculation done',
+                    type: 'success',
+                });
+                $('#ProbabilityOfDiabetes').val(prob);
+                $('#calculate-textbox').val(prob);
+            });
+        });
+
+        $(document).ready(function () {
+            if ($('#ProbabilityOfDiabetes').val() != null) {
+                $('#calculate-textbox').val($('#ProbabilityOfDiabetes').val());
+            }
+        });
+    </script>
+}
